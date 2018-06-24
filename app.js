@@ -1,6 +1,12 @@
 const express = require('express')
 const app = express()
 
-app.get('/', (req, res) => res.send('Hello World!'))
+if (process.env.NODE_ENV === 'production') {
+   app.use(express.static('client/build'));
+   const path = require('path');
+   app.get('*', (req, res) => {
+     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+   });
+}
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('PiFM_Web started and listening on port 3000!'))
