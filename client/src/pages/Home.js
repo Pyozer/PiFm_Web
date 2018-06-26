@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
+import Card from '../components/UI/Card';
+import Navbar from '../components/UI/Navbar';
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { streamURL: "", frequency: 87.5 };
+        this.state = { sourceAudio: "music", streamURL: "", textToSpeech: "", radioName: "", radioText: "", frequency: 87.5 };
+
+        this.onBtnMusic = this.onBtnMusic.bind(this);
+        this.onBtnTTS = this.onBtnTTS.bind(this);
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    onBtnMusic() {
+        this.setState({sourceAudio: "music"})
+    }
+    onBtnTTS() {
+        this.setState({sourceAudio: "tts"})
     }
 
     handleInputChange(event) {
@@ -27,38 +39,28 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <header>
-                    <div className="navbar navbar-dark bg-dark box-shadow">
-                        <div className="container d-flex justify-content-between">
-                            <a href="/" className="navbar-brand d-flex align-items-center">
-                                <i className="fas fa-broadcast-tower mr-2" style={{marginTop: -7}}></i>
-                                <strong>PiFM</strong>
-                            </a>
-                        </div>
-                    </div>
-                </header>
+                <Navbar />
                 <main role="main">
-                    <section className="jumbotron text-center bg-white">
+                    <section className="jumbotron text-center bg-white mb-0">
                         <div className="container">
                             <h1 className="jumbotron-heading">PiFM Control Interface</h1>
-                            <p className="lead text-muted">Web Interface for control your Raspberry Pi FM transmitter</p>
+                            <p className="lead text-muted">Web Interface to control your Raspberry Pi FM transmitter</p>
                             <p>
-                                <a href="/playmusic" className="btn btn-outline-primary btn-lg m-3">
+                                <button className={"btn btn-outline-primary btn-lg" + (this.state.sourceAudio === "music" ? " active" : "")} onClick={this.onBtnMusic}>
                                     <i class="fas fa-music mr-2"></i> Play music
-                                </a>
-                                <a href="/tts" className="btn btn-outline-secondary btn-lg m-3">
+                                </button>
+                                <button className={"btn btn-outline-secondary btn-lg ml-4" + (this.state.sourceAudio === "tts" ? " active" : "")} onClick={this.onBtnTTS}>
                                     <i class="far fa-comment-dots fa-flip-horizontal mr-2"></i> Text To Speech
-                                </a>
+                                </button>
                             </p>
                         </div>
                     </section>
                 </main>
-                <div className="container mt-5">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title mb-3"><i class="fas fa-music mr-2"></i> Play Music</h4>
-                            <form onSubmit={this.handleSubmit}>
-                                <div class="form-group my-4">
+                <div className="container mb-4">
+                    <form onSubmit={this.handleSubmit}>
+                        { this.state.sourceAudio === "music" ? (
+                            <Card title="Play Music" iconTitle="fas fa-music">
+                                <div class="form-group mt-4">
                                     <label for="inputAudioURL">Audio Stream URL :</label>
                                     <input
                                         type="url"
@@ -69,9 +71,51 @@ class Home extends Component {
                                         onChange={this.handleInputChange}
                                         placeholder="Enter audio stream URL" />
                                 </div>
+                            </Card>
+                        ) : (
+                            <Card title="Speak text" iconTitle="far fa-comment-dots fa-flip-horizontal">
+                                <div class="form-group mt-4">
+                                    <label for="inputTextToSpeech">Text :</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="textToSpeech"
+                                        id="inputTextToSpeech"
+                                        value={this.state.textToSpeech}
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter text to speech" />
+                                </div>
+                            </Card>
+                        )}
+                        <Card title="Radio Informations" iconTitle="fas fa-broadcast-tower">
+                            <div className="form-row mt-4">
+                                <div class="form-group col-md-4">
+                                    <label for="inputAudioURL">Radio name :</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="radioName"
+                                        id="inputRadioName"
+                                        value={this.state.radioName}
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter radio name" />
+                                </div>
                                 
-                                <div class="form-group my-4">
-                                    <label for="inputFrequency">FM Frequency : { this.state.frequency }</label>
+                                <div class="form-group col-md-8">
+                                    <label for="inputAudioURL">Radio text :</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="radioText"
+                                        id="inputRadioText"
+                                        value={this.state.radioText}
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter radio text" />
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="inputFrequency">
+                                        FM Frequency : <span class="badge badge-pill badge-primary lead">{ parseFloat(this.state.frequency).toFixed(1) }</span>
+                                    </label>
                                     <input
                                         type="range"
                                         class="custom-range"
@@ -83,11 +127,10 @@ class Home extends Component {
                                         max="108.0"
                                         step="0.1" />
                                 </div>
-
-                                <button type="submit" className="btn btn-outline-primary px-4">Valider</button>
-                            </form>
-                        </div>
-                    </div> 
+                            </div>
+                        </Card>
+                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Start the FM broadcast</button>
+                    </form>
                 </div>
             </div>
         );
