@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Card from '../components/UI/Card';
 import Navbar from '../components/UI/Navbar';
+import axios from 'axios';
 
 class Home extends Component {
 
@@ -34,6 +35,17 @@ class Home extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        console.log(this.state)
+        /*
+        axios.post('/user', {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+        */
     }
 
     render() {
@@ -71,7 +83,16 @@ class Home extends Component {
                                         onChange={this.handleInputChange}
                                         placeholder="Enter audio stream URL" />
                                 </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="inputAudioTypeMP3" name="audioType" class="custom-control-input" value="mp3" onChange={this.handleInputChange} />
+                                    <label class="custom-control-label" for="inputAudioTypeMP3">MP3</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="inputAudioTypeWav" name="audioType" class="custom-control-input" value="wav" onChange={this.handleInputChange} />
+                                    <label class="custom-control-label" for="inputAudioTypeWav">WAV</label>
+                                </div>
                             </Card>
+                            
                         ) : (
                             <Card title="Speak text" iconTitle="far fa-comment-dots fa-flip-horizontal">
                                 <div class="form-group mt-4">
