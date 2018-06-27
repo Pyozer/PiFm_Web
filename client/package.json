@@ -1,6 +1,10 @@
 {
   "name": "pifm_web",
+  "description": "Interface de contrôle pour l'émission FM sur Raspberry Pi avec PiFMRds",
   "version": "0.1.0",
+  "author": {
+    "Jean-Charles Moussé"
+  },
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
