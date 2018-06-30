@@ -1,7 +1,10 @@
 var shell = require('shelljs');
+var googleTTS = require('google-tts-api');
 
-exports.music = function(req, res) {
+var music = function(req, res) {
     let data = req.body
+
+    console.log(data)
 
     if (!data.streamURL) {
         res.status(400).send({
@@ -20,23 +23,12 @@ exports.music = function(req, res) {
     }
 
     shell.cd('/home/pi/PiFmRds/src/');
-
-    /*let soxCmd = "sox "
-    if (data.audioType == "mp3")
-        soxCmd += "-t mp3 " + data.streamURL + " -t wav -"
-    else if (data.audioType == "wav")
-        soxCmd += data.streamURL + " -"*/
-
     
-    const cmd = 'ffmpeg -i ' + data.streamURL + ' -f wav - | sudo ./pi_fm_rds -freq ' + parseFloat(data.radioFrequency).toFixed(1) + ' -audio - &'
+    const cmd = 'ffmpeg -i ' + data.streamURL + ' -f wav - | sudo ./pi_fm_rds -freq ' + parseFloat(data.radioFrequency).toFixed(1) + ' -audio -'
 
-    /*var child = shell.exec(cmd, { async: true });
-    child.stdout.on('data', function(data) {
-        console.log(data)
-    });*/
     shell.exec(cmd, function(code, stdout, stderr) {
         console.log('Exit code:', code);
-        //console.log('Program output:', stdout);
+        console.log('Program output:', stdout);
         console.log('Program stderr:', stderr);
     });
 
@@ -44,6 +36,32 @@ exports.music = function(req, res) {
         status: "success",
         message: "Streaming audio successfully send to radio"
     })
+}
+
+var tts = function(req, res) {
+    if (!req.body.textToSpeech) {
+        res.status(400).send({
+            status: "error",
+            message: "Vous devez spécifiez le texte à parler"
+        })
+        return;
+    }
+
+    googleTTS(req.body.textToSpeech, 'fr', 1)
+        .then(function (url) {
+            console.log(url);
+
+            req.body.streamURL = url
+            music(req, res)
+        })
+        .catch(function (err) {
+            console.error(err.stack);
+
+            res.status(400).send({
+                status: "error",
+                message: "Erreur lors de la récupération de l'URL TTS."
+            })
+        });
 }
 
 function isRadioInfoCorrect(data) {
@@ -56,3 +74,6 @@ function isRadioInfoCorrect(data) {
         data.radioFrequency && data.radioFrequency >= 87.5 && data.radioFrequency <= 108.0
     )
 }
+
+exports.music = music;
+exports.tts = tts;
