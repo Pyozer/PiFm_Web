@@ -3,8 +3,6 @@ var shell = require('shelljs');
 var music = function(req, res) {
     let data = req.body
 
-    console.log(data)
-
     if (!data.streamURL) {
         res.status(400).send({
             status: "error",
@@ -47,10 +45,9 @@ var tts = function(req, res) {
         return;
     }
 
-    var querystring = require("querystring");
-    let textParamEncoded = querystring.stringify({text: req.body.textToSpeech});
-    console.log(textParamEncoded)
-    req.body.streamURL = "http://localhost:3001/api/speech?" + textParamEncoded
+    let textParamEncoded = require("querystring").stringify({text: req.body.textToSpeech});
+    
+    req.body.streamURL = "http://localhost:" + global.serverPort + "/api/speech?" + textParamEncoded
     music(req, res)
 }
 
