@@ -1,5 +1,4 @@
 var shell = require('shelljs');
-var googleTTS = require('google-tts-api');
 
 var music = function(req, res) {
     let data = req.body
@@ -24,7 +23,8 @@ var music = function(req, res) {
 
     shell.cd('/home/pi/PiFmRds/src/');
     
-    const cmd = 'ffmpeg -i ' + data.streamURL + ' -f wav - | sudo ./pi_fm_rds -freq ' + parseFloat(data.radioFrequency).toFixed(1) + ' -audio -'
+    let freq = parseFloat(data.radioFrequency).toFixed(1)
+    const cmd = 'ffmpeg -i ' + data.streamURL + ' -f wav - | sudo ./pi_fm_rds -freq ' + freq + ' -ps "' + data.radioName + '" -rt "' + data.radioText + '" -audio -'
 
     shell.exec(cmd, function(code, stdout, stderr) {
         console.log('Exit code:', code);
@@ -47,21 +47,11 @@ var tts = function(req, res) {
         return;
     }
 
-    googleTTS(req.body.textToSpeech, 'fr', 1)
-        .then(function (url) {
-            console.log(url);
-
-            req.body.streamURL = url
-            music(req, res)
-        })
-        .catch(function (err) {
-            console.error(err.stack);
-
-            res.status(400).send({
-                status: "error",
-                message: "Erreur lors de la récupération de l'URL TTS."
-            })
-        });
+    var querystring = require("querystring");
+    let textParamEncoded = querystring.stringify({text: req.body.textToSpeech});
+    console.log(textParamEncoded)
+    req.body.streamURL = "http://localhost:3001/api/speech?" + textParamEncoded
+    music(req, res)
 }
 
 function isRadioInfoCorrect(data) {

@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const app = express()
 
 var play = require('./routes/play')
+var speech = require('./routes/speech')
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
@@ -22,5 +23,6 @@ if (process.env.NODE_ENV === 'production') {
 
 app.post('/api/playmusic', play.music)
 app.post('/api/playtts', play.tts)
+app.get('/api/speech', speech.createStream)
 
 app.listen(3001, () => console.log('PiFM_Web started and listening on port 3001!'))
