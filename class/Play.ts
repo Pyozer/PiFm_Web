@@ -40,6 +40,9 @@ export class Play {
       return
     }
 
+    const isYoutubeLink = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/.test(datas.streamURL)
+    console.log(isYoutubeLink)
+
     cd('/home/pi/PiFmRds/src/')
     
     let freq = parseFloat(datas.radioFrequency).toFixed(1)
