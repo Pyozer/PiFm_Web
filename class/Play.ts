@@ -60,7 +60,7 @@ export class Play {
   }
 
   public stop(req: Request, res: Response) {
-    req.body.textToSpeech = ''
+    req.body.textToSpeech = ' '
     this.tts(req, res)
   }
 
