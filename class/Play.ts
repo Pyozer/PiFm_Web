@@ -25,7 +25,7 @@ export class Play {
     const isYoutubeLink = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/.test(datas.streamURL)
 
     if (isYoutubeLink) {
-      datas.streamURL = this.getApiUrl(`youtube/${datas.streamURL}`)
+      datas.streamURL = this.getApiUrl(`youtube/${encodeURIComponent(datas.streamURL)}`)
     }
 
     cd('/home/pi/PiFmRds/src/')

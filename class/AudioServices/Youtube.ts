@@ -6,7 +6,8 @@ const YoutubeStream = require('youtube-audio-stream')
 export class YoutubeAudioService extends AudioService {
   public play(req: Request, res: Response) {
     let datas: IPlayYT = req.params
-
+    datas.link = decodeURIComponent(datas.link)
+  
     if (!datas.link) {
       res.status(400).send({
         status: 'error',
