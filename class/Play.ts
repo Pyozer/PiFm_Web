@@ -15,13 +15,13 @@ export class Play {
     return this._lang
   }
 
-  constructor(lang?: string) {
+  public constructor(lang?: string) {
     if (lang) {
-      this._lang = lang
+      this.Lang = lang
     }
   }
 
-  music(req: Request, res: Response) {
+  public music(req: Request, res: Response) {
     let datas: IPlayMusic = req.body
 
     if (datas.streamURL) {
@@ -60,7 +60,7 @@ export class Play {
     })
   }
 
-  tts(req: Request, res: Response) {
+  public tts(req: Request, res: Response) {
     let datas: IPlayTts = req.body
 
     if (!datas.textToSpeech) {
@@ -76,7 +76,7 @@ export class Play {
     this.music(req, res)
   }
 
-  setLang(req: Request, res: Response) {
+  public setLang(req: Request, res: Response) {
     const datas: ISetLang = req.body
 
     if (!datas.lang) {
@@ -90,7 +90,7 @@ export class Play {
     this.Lang = datas.lang
   }
 
-  static isRadioInfoCorrect(data: IPlayMusic) {
+  private static isRadioInfoCorrect(data: IPlayMusic) {
     let freq: number = 0
   
     if (data.radioFrequency) {

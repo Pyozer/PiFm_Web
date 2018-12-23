@@ -26,9 +26,9 @@ class main {
     this._expressApp.use(Express.static('client/build'))
 
     const api = Express.Router()
-    api.post('/playmusic', this._play.music)
-    api.post('/playtts', this._play.tts)
-    api.post('/lang', this._play.setLang)
+    api.post('/playmusic', this._play.music.bind(this._play))
+    api.post('/playtts', this._play.tts.bind(this._play))
+    api.post('/lang', this._play.setLang.bind(this._play))
     this._expressApp.use('/api', api)
 
     this._expressApp.listen(
