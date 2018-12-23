@@ -14,7 +14,7 @@ export class YoutubeAudioService extends AudioService {
       })
       return
     }
-console.log(datas.link)
+
     try {
       YoutubeStream(datas.link).pipe(res)
     } catch (exception) {

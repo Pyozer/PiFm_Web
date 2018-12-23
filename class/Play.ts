@@ -55,7 +55,7 @@ export class Play {
       })
       return
     }
-    req.body.streamURL = this.getApiUrl(`tts/${datas.textToSpeech}`)
+    req.body.streamURL = this.getApiUrl(`tts/${encodeURI(datas.textToSpeech)}`)
     this.play(req, res)
   }
 

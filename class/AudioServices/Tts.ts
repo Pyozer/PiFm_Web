@@ -4,7 +4,7 @@ import { IPlayTts } from '../../types'
 const NodeGtts = require('node-gtts')
 
 export class TtsAudioService extends AudioService {
-  private _lang: string = 'fr'
+  private _lang: string
 
   public get Lang() {
     return this._lang
@@ -16,11 +16,12 @@ export class TtsAudioService extends AudioService {
 
   public constructor(lang?: string) {
     super()
-    this.Lang = lang
+    this.Lang = lang || 'fr'
   }
 
   public play(req: Request, res: Response) {
     let datas: IPlayTts = req.params
+    datas.textToSpeech = decodeURI(datas.textToSpeech)
 
     if (!datas.textToSpeech) {
       res.status(400).send({
