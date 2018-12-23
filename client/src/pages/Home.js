@@ -74,13 +74,13 @@ class Home extends Component {
                         { this.state.sourceAudio === "music" ? (
                             <Card title="Play Music" iconTitle="fas fa-music">
                                 <div className="form-group mt-4">
-                                    <label htmlFor="inputAudioURL">Audio Stream URL :</label>
+                                    <label htmlFor="inputAudioURL">Audio Stream URL or YouTube link :</label>
                                     <input
                                         type="url"
                                         className="form-control"
                                         name="streamURL"
                                         id="inputAudioURL"
-                                        placeholder="Enter audio stream URL"
+                                        placeholder="Enter audio stream URL or YouTube link"
                                         value={this.state.streamURL || ""}
                                         onChange={this.handleInputChange}
                                         required />
@@ -91,7 +91,7 @@ class Home extends Component {
                             <Card title="Speak text" iconTitle="far fa-comment-dots fa-flip-horizontal">
                                 <div className="form-group mt-4">
                                     <label htmlFor="inputTextToSpeech">Text :</label>
-                                    <input
+                                    <textarea
                                         type="text"
                                         className="form-control"
                                         name="textToSpeech"
