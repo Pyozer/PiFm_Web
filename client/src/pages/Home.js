@@ -36,23 +36,25 @@ class Home extends Component {
         event.preventDefault();
 
         let urlApi = this.state.sourceAudio === "music" ? "/api/playmusic" : "/api/playtts";
-
-        let data = {
-            streamURL: this.state.streamURL,
-            textToSpeech: this.state.textToSpeech,
-            radioName: this.state.radioName,
-            radioText: this.state.radioText,
-            radioFrequency: parseFloat(this.state.radioFrequency).toFixed(1)
-        }
         
-        axios.post(urlApi, data)
+        axios.post(urlApi, this.getDatas())
             .then(response => console.log(response))
             .catch(error => console.log(error));
     }
 
     async handleStop(event) {
-        await axios.post('/api/stop')
-    } 
+        await axios.post('/api/stop', this.getDatas(' '))
+    }
+
+    getDatas(textToSpeech = this.state.textToSpeech) {
+        return {
+            streamURL: this.state.streamURL,
+            textToSpeech: textToSpeech,
+            radioName: this.state.radioName,
+            radioText: this.state.radioText,
+            radioFrequency: parseFloat(this.state.radioFrequency).toFixed(1)
+        }
+    }
 
     render() {
         return (
