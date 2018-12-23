@@ -1,4 +1,4 @@
-export interface IPlayMusic {
+export interface IPlay {
   streamURL: string
   radioFrequency: string
   radioName: string

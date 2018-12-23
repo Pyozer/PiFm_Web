@@ -1,3 +1,3 @@
-export * from './IPlayMusic'
+export * from './IPlay'
 export * from './IPlayTts'
-export * from './ISetLang'
+export * from './IPlayYT'
