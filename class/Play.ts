@@ -72,7 +72,7 @@ export class Play {
     }
 
     res.set({'Content-Type': 'audio/mpeg'})
-    this._gtts.stream(req.query.text).pipe(res)
+    this._gtts.stream(datas.textToSpeech).pipe(res)
     this.music(req, res)
   }
 

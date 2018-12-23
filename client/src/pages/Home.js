@@ -148,7 +148,7 @@ class Home extends Component {
                                 </div>
                             </div>
                         </Card>
-                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Start the FM broadcast</button>
+                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Play to FM</button>
                     </form>
                 </div>
             </div>
