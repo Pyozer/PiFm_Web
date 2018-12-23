@@ -59,6 +59,11 @@ export class Play {
     this.play(req, res)
   }
 
+  public stop(req: Request, res: Response) {
+    req.body.textToSpeech = ''
+    this.tts(req, res)
+  }
+
   private static isRadioInfoCorrect(data: IPlay) {
     let freq: number = 0
   

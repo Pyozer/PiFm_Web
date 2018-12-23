@@ -33,6 +33,7 @@ class main {
     const api = Express.Router()
     api.post('/playmusic', this._play.play.bind(this._play))
     api.post('/playtts', this._play.tts.bind(this._play))
+    api.post('/stop', this._play.stop.bind(this._play))
     api.get('/youtube/:link', this._youtubeAudioService.play.bind(this._youtubeAudioService))
     api.get('/tts/:textToSpeech', this._ttsAudioService.play.bind(this._ttsAudioService))
     this._expressApp.use('/api', api)

@@ -14,6 +14,7 @@ class Home extends Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleStop = this.handleStop.bind(this);
     }
 
     onBtnMusic() {
@@ -48,6 +49,10 @@ class Home extends Component {
             .then(response => console.log(response))
             .catch(error => console.log(error));
     }
+
+    async handleStop(event) {
+        await axios.post('/api/stop')
+    } 
 
     render() {
         return (
@@ -148,8 +153,9 @@ class Home extends Component {
                                 </div>
                             </div>
                         </Card>
-                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Play to FM</button>
+                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Broadcast to FM</button>
                     </form>
+                    <button onClick={this.handleStop} className="btn btn-outline-danger btn-lg my-2 px-4">Stop current broadcasting</button>
                 </div>
             </div>
         );
