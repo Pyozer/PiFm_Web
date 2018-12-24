@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { IPlay, IPlayTts } from '../types'
 import { exec, cd } from 'shelljs'
+import { Main } from '../Main'
 
 export class Play {
   public play(req: Request, res: Response) {
@@ -79,6 +80,6 @@ export class Play {
   }
 
   private getApiUrl(url: string) {
-    return `http://${process.env.host}:${process.env.port}/api/${url}`
+    return `http://${Main.Host}:${Main.Port}/api/${url}`
   }
 }
