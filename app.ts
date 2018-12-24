@@ -4,10 +4,11 @@ import * as dotenv from 'dotenv'
 import * as morgan from 'morgan'
 import { Play } from './class'
 import { YoutubeAudioService, TtsAudioService } from './class/AudioServices'
+import { v4 } from 'internal-ip'
 
 dotenv.config()
 
-class main {
+class Main {
   private _port: number
   private _host: string
   private _expressApp: Express.Express
@@ -15,7 +16,7 @@ class main {
   private _ttsAudioService: TtsAudioService
   private _youtubeAudioService: YoutubeAudioService
 
-  constructor(port?: number, host?: string, lang?: string) {
+  constructor(host?: string, port?: number, lang?: string) {
     this._port = port || Number(process.env.port)
     this._host = host || process.env.host
     this._play = new Play()
@@ -46,5 +47,5 @@ class main {
   }
 }
 
-const app = new main()
+const app = new Main(v4.sync())
 app.start()
