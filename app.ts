@@ -41,7 +41,7 @@ class main {
     this._expressApp.listen(
       this._port,
       this._host,
-      () => console.log(`Listening to port ${this._port}`)
+      () => console.log(`Listening to ${this._host}:${this._port}`)
     )
   }
 }
