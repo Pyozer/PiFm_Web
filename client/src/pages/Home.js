@@ -14,6 +14,7 @@ class Home extends Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleStop = this.handleStop.bind(this);
     }
 
     onBtnMusic() {
@@ -35,18 +36,24 @@ class Home extends Component {
         event.preventDefault();
 
         let urlApi = this.state.sourceAudio === "music" ? "/api/playmusic" : "/api/playtts";
+        
+        axios.post(urlApi, this.getDatas())
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }
 
-        let data = {
+    async handleStop(event) {
+        await axios.post('/api/stop', this.getDatas(' '))
+    }
+
+    getDatas(textToSpeech = this.state.textToSpeech) {
+        return {
             streamURL: this.state.streamURL,
-            textToSpeech: this.state.textToSpeech,
+            textToSpeech: textToSpeech,
             radioName: this.state.radioName,
             radioText: this.state.radioText,
             radioFrequency: parseFloat(this.state.radioFrequency).toFixed(1)
         }
-        
-        axios.post(urlApi, data)
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
     }
 
     render() {
@@ -74,13 +81,13 @@ class Home extends Component {
                         { this.state.sourceAudio === "music" ? (
                             <Card title="Play Music" iconTitle="fas fa-music">
                                 <div className="form-group mt-4">
-                                    <label htmlFor="inputAudioURL">Audio Stream URL :</label>
+                                    <label htmlFor="inputAudioURL">Audio Stream URL or YouTube link :</label>
                                     <input
                                         type="url"
                                         className="form-control"
                                         name="streamURL"
                                         id="inputAudioURL"
-                                        placeholder="Enter audio stream URL"
+                                        placeholder="Enter audio stream URL or YouTube link"
                                         value={this.state.streamURL || ""}
                                         onChange={this.handleInputChange}
                                         required />
@@ -91,7 +98,7 @@ class Home extends Component {
                             <Card title="Speak text" iconTitle="far fa-comment-dots fa-flip-horizontal">
                                 <div className="form-group mt-4">
                                     <label htmlFor="inputTextToSpeech">Text :</label>
-                                    <input
+                                    <textarea
                                         type="text"
                                         className="form-control"
                                         name="textToSpeech"
@@ -148,8 +155,9 @@ class Home extends Component {
                                 </div>
                             </div>
                         </Card>
-                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Start the FM broadcast</button>
+                        <button type="submit" className="btn btn-outline-primary btn-lg my-2 px-4">Broadcast to FM</button>
                     </form>
+                    <button onClick={this.handleStop} className="btn btn-outline-danger btn-lg my-2 px-4">Stop current broadcasting</button>
                 </div>
             </div>
         );

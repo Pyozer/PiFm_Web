@@ -2,19 +2,32 @@
   "name": "pifm_web",
   "version": "1.0.0",
   "description": "Serveur NodeJS en lien avec une interface web de contrôle",
-  "main": "index.js",
+  "main": "Main.ts",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.3",
+    "internal-ip": "^3.0.1",
     "morgan": "^1.9.0",
     "node-gtts": "^2.0.2",
-    "shelljs": "^0.8.2"
+    "shelljs": "^0.8.2",
+    "youtube-audio-stream": "^0.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/dotenv": "^6.1.0",
+    "@types/express": "^4.16.0",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^10.12.18",
+    "@types/shelljs": "^0.8.1",
+    "nodemon": "^1.18.9",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buildAndStart": "npm run build --prefix ./client/ && node app.js",
-    "start": "node app.js"
+    "buildAndStart": "npm run build --prefix ./client/ && ts-node Main.ts",
+    "start": "ts-node Main.ts",
+    "dev": "nodemon"
   },
   "author": "Jean-Charles Moussé",
   "license": "ISC"
